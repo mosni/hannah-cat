@@ -1,0 +1,172 @@
+<html>
+
+<head>
+    <title>hannah.cat 😊</title>
+    <link rel="icon" type="image/png" href="https://mosni.dev/images/icon.png">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+            background-color: #996bef;
+            overflow: hidden;
+            position: absolute;
+        }
+
+        @keyframes spinnies {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        span {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 5rem;
+            color: white;
+            animation: spinnies 8s infinite linear;
+            user-select: none;
+        }
+
+        img {
+            position: absolute;
+            bottom: 0;
+            left: 70vw;
+            pointer-events: none;
+        }
+
+        canvas {
+            position: absolute;
+        }
+	.pagelink {
+	    position: absolute;
+	    bottom: 20%;
+	    color: white;
+	    //border: 2px solid black;
+	    //background-color: #444;
+	    //padding: 2px 6px;
+	    //border-radius: 10px;
+	    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	}
+    </style>
+</head>
+
+<body>
+    <img id="cat-image" src="https://i.imgur.com/AkT7GxE.png" />
+    <span>idk why I bought this 😭</span>
+    <a class="pagelink" href="https://mosni.dev">Click here if you wanna see my stuff tho :)</a>
+    <script>
+        const eyeLeftOffsetX = 70;
+        const eyeLeftOffsetY = 120;
+
+        const eyeRightOffsetX = 185;
+        const eyeRightOffsetY = 120;
+
+        const eyeSize = 58;
+
+        const catImg = document.querySelector("img#cat-image");
+
+        const catEyeLeft = document.createElement("canvas");
+        const catEyeRight = document.createElement("canvas");
+
+        document.body.appendChild(catEyeLeft);
+        document.body.appendChild(catEyeRight);
+
+        const intializeCat = function (updateSize = true) {
+            const catRect = catImg.getBoundingClientRect();
+
+            catEyeLeft.style.left = catRect.left + eyeLeftOffsetX;
+            catEyeLeft.style.top = catRect.top + eyeLeftOffsetY;
+
+
+            catEyeRight.style.left = catRect.left + eyeRightOffsetX;
+            catEyeRight.style.top = catRect.top + eyeRightOffsetY;
+
+            if (updateSize) {
+                catEyeLeft.style.width = eyeSize;
+                catEyeLeft.style.height = eyeSize;
+                catEyeLeft.width = eyeSize;
+                catEyeLeft.height = eyeSize;
+                catEyeRight.style.width = eyeSize;
+                catEyeRight.style.height = eyeSize;
+                catEyeRight.width = eyeSize;
+                catEyeRight.height = eyeSize;
+            }
+
+        }
+
+
+
+        const drawEyes = function (x, y) {
+            const rectl = catEyeLeft.getBoundingClientRect();
+            const rectr = catEyeRight.getBoundingClientRect();
+
+            const ctxl = catEyeLeft.getContext('2d');
+            const ctxr = catEyeRight.getContext('2d');
+
+
+
+            ctxl.fillStyle = "black";
+            ctxr.fillStyle = "black";
+
+            drawEye = function (rect, ctx) {
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                tx = x - rect.left;
+                ty = y - rect.top;
+                center = getCenter(rect);
+                distance = getDistance(x, y, center[0], center[1]);
+                if (distance > 20) {
+                    angle = Math.atan2((y - center[1]), (x - center[0]));
+                    tx = ctx.canvas.width / 2 + 20 * Math.cos(angle);
+                    ty = ctx.canvas.height / 2 + 20 * Math.sin(angle);
+                }
+
+                ctx.beginPath();
+                ctx.arc(tx, ty, 8, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            drawEye(rectr, ctxr);
+            drawEye(rectl, ctxl);
+
+        }
+        getDistance = function (x1, y1, x2, y2) {
+            return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+        }
+        getCenter = function (rect) {
+            var x = rect.left + (rect.right - rect.left) / 2;
+            var y = rect.top + (rect.bottom - rect.top) / 2;
+            return [x, y];
+        }
+
+        catImg.addEventListener("load", ()=> {
+            intializeCat();
+            drawEyes(window.innerWidth / 2, window.innerHeight / 2);
+        })
+
+        document.addEventListener("DOMContentLoaded", e => {
+            window.addEventListener("resize", () => {
+                intializeCat(false);
+            })
+
+            document.addEventListener("mousemove", (e) => {
+                drawEyes(e.clientX, e.clientY);
+            });
+            document.addEventListener("touchstart", (e) => {
+                console.log(e)
+                drawEyes(e.touches[0].clientX, e.touches[0].clientY);
+            });
+            document.addEventListener("touchmove", (e) => {
+                drawEyes(e.touches[0].clientX, e.touches[0].clientY);
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>
