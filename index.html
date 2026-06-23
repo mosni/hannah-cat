@@ -82,20 +82,20 @@
         const intializeCat = function (updateSize = true) {
             const catRect = catImg.getBoundingClientRect();
 
-            catEyeLeft.style.left = catRect.left + eyeLeftOffsetX;
-            catEyeLeft.style.top = catRect.top + eyeLeftOffsetY;
+            catEyeLeft.style.left = (catRect.left + eyeLeftOffsetX) + "px";
+            catEyeLeft.style.top = (catRect.top + eyeLeftOffsetY) + "px";
 
 
-            catEyeRight.style.left = catRect.left + eyeRightOffsetX;
-            catEyeRight.style.top = catRect.top + eyeRightOffsetY;
+            catEyeRight.style.left = (catRect.left + eyeRightOffsetX) + "px";
+            catEyeRight.style.top = (catRect.top + eyeRightOffsetY) + "px";
 
             if (updateSize) {
-                catEyeLeft.style.width = eyeSize;
-                catEyeLeft.style.height = eyeSize;
+                catEyeLeft.style.width = eyeSize + "px";
+                catEyeLeft.style.height = eyeSize + "px";
                 catEyeLeft.width = eyeSize;
                 catEyeLeft.height = eyeSize;
-                catEyeRight.style.width = eyeSize;
-                catEyeRight.style.height = eyeSize;
+                catEyeRight.style.width = eyeSize + "px";
+                catEyeRight.style.height = eyeSize + "px";
                 catEyeRight.width = eyeSize;
                 catEyeRight.height = eyeSize;
             }
